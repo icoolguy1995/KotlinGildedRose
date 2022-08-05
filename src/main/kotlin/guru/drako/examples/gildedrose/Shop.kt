@@ -12,7 +12,7 @@ class Shop(val items: List<Item>) {
             } else if (item.sellIn <11){
               item.quality+=2
             }else{
-              item.quality++
+              ++item.quality
             }
           }else if(item.sellIn <0){
             item.quality = 0
@@ -20,7 +20,7 @@ class Shop(val items: List<Item>) {
         }
         "Aged Brie"->{
           if(item.quality<50)
-            item.quality++
+            ++item.quality
         }
         "Sulfuras, Hand of Ragnaros"->{
           //do nothing for the iteration ;)
@@ -34,11 +34,15 @@ class Shop(val items: List<Item>) {
         }
         else->{
           if(item.quality >0){
-            item.quality--
+            --item.quality
           }
         }
-
       }
+      if (item.name != "Sulfuras, Hand of Ragnaros") {
+        --item.sellIn
+      }
+      if(degradeQualityTwice(item))
+        --item.quality
     }
   }
 
@@ -92,5 +96,9 @@ class Shop(val items: List<Item>) {
         }
       }
     }
+  }
+
+  private fun degradeQualityTwice(item: Item) : Boolean{
+    return item.sellIn<0&&item.quality>0
   }
 }
