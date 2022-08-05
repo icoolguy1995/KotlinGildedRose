@@ -13,7 +13,7 @@ fun main() {
   ))
 
   println("Running shop for a day...")
-  shop.updateInventory()
+  shop.updateQuality()
   println("Done.")
 
   println("Current items:")
