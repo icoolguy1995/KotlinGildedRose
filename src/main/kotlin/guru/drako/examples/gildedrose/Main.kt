@@ -12,7 +12,7 @@ fun main() {
     Item(name = "Conjured Mana Cake", sellIn = 3, quality = 6)
   ))
 
-  for(i in 1..4) {
+  for(i in 1..18) {
     println("Running shop on day $i...")
     shop.updateQuality()
   }

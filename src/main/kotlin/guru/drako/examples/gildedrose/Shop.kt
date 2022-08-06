@@ -3,18 +3,23 @@ package guru.drako.examples.gildedrose
 class Shop(val items: List<Item>) {
 
 
-  private fun checkQuality(item: Item) {
-    if (item.quality !in 0..50) {
-      println("Quality already to the max for item ${item.name}")
-      return
-    }
+  fun updateQuality() {
+    for (item in items)
+      checkQuality(item)
+  }
+
+  private fun checkQuality(item: Item){
     when (item.name) {
+      "Sulfuras, Hand of Ragnaros"->{
+        return
+      }
+
       "Backstage passes to a TAFKAL80ETC concert" -> {
         handleBackStage(item)
       }
 
       "Aged Brie" -> {
-        ++item.quality
+        increaseQuality(item)
       }
 
       else -> {
@@ -31,24 +36,21 @@ class Shop(val items: List<Item>) {
   private fun handleBackStage(item: Item) {
     if (item.sellIn > 0) {
       if (item.sellIn < 6 && item.quality < 48) {
-        item.quality += 3
+        increaseQuality(item,3)
       } else if (item.sellIn < 11 && item.quality < 49) {
-        item.quality += 2
+        increaseQuality(item,2)
       } else {
-        ++item.quality
+        increaseQuality(item)
       }
     } else {
       item.quality = 0
     }
   }
 
-  fun updateQuality() {
-    for (item in items)
-      checkQuality(item)
-  }
+
 
   private fun degradeQualityTwice(item: Item): Boolean {
-    return item.sellIn < 0 && item.quality > 0
+    return item.sellIn < 0
   }
 
   private fun decreaseQuality(item: Item) {
@@ -60,9 +62,21 @@ class Shop(val items: List<Item>) {
           item.quality = 0
       }
 
+      "Aged Brie" -> {
+        //ignore ;)
+      }
+
       else -> {
-        --item.quality
+        if (item.quality > 0)
+          item.quality--
       }
     }
   }
+
+
+  private fun increaseQuality(item:Item, by:Int = 1){
+    if(item.quality <50)
+      item.quality+=by
+  }
+
 }
